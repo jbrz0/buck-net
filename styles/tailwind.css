@@ -1,0 +1,36 @@
+/* Tailwind Stuff */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* text aliasing */
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+path {
+  shape-rendering: geometricPrecision;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rounded-xl {
+  border-radius: 1.5rem;
+}
+
+body {
+  @apply bg-gray-500;
+}
+
+/* Container override LG */
+@media (min-width: 1280px) {
+
+  .container {
+    max-width: 1380px;
+  }
+}
