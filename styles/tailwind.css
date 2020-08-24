@@ -23,14 +23,41 @@ a {
   border-radius: 1.5rem;
 }
 
+/* Fonts */
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,700;1,400&display=swap');
+}
+
+html,
 body {
+  padding: 0;
+  margin: 0;
   @apply bg-gray-500;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Container override LG */
-@media (min-width: 1280px) {
+/* @media (min-width: 1280px) {
 
   .container {
     max-width: 1380px;
   }
+} */
+
+/* Arrows */
+.arrow-up,
+.arrow-down {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.arrow-up {
+  border-bottom: 12px solid #02C751;
+}
+
+.arrow-down {
+  border-top: 12px solid #F52C38;
 }

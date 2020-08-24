@@ -20,6 +20,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        'gray-50': '#A1A8C2',
         'gray-100': '#9292C1',
         'gray-200': '#5A5A89',
         'gray-300': '#14142B',
