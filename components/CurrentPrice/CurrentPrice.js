@@ -1,5 +1,5 @@
 function CurrentPrice() {
-  return <div className="w-full bg-gray-300 rounded-lg px-8 py-6">
+  return <div className="w-full bg-gray-300 rounded-lg px-8 py-6 mb-4">
     <h3 className="text-white text-lg font-medium mb-2">Current Price</h3>
     <div className="text-3xl font-bold text-white">
       9620

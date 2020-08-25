@@ -3,18 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "pm2 start next -- dev && pm2 start ./data/redis.js",
     "build": "next build",
-    "start": "next start"
+    "start": "pm2 start next -- start && pm2 start ./data/redis.js",
+    "redis": "pm2 start ./data/redis.js",
+    "stop": "pm2 stop all"
   },
   "dependencies": {
+    "async-redis": "^1.1.7",
     "autoprefixer": "^9.8.6",
     "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "cron": "^1.8.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "moment": "^2.27.0",
     "next": "9.5.2",
+    "node-binance-api": "^0.11.11",
+    "pm2": "^4.4.1",
     "postcss-import": "^12.0.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "recharts": "^1.8.5",
+    "redis": "^3.0.2",
     "tailwindcss": "^1.7.3"
   }
 }

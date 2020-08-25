@@ -24,10 +24,10 @@ a {
 }
 
 /* Fonts */
-@font-face {
+/* @font-face {
   font-family: 'Open Sans';
   src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,700;1,400&display=swap');
-}
+} */
 
 html,
 body {
@@ -38,6 +38,12 @@ body {
 }
 
 /* Container override LG */
+@media (min-width: 1600px) {
+
+  .container {
+    max-width: 1450px;
+  }
+}
 /* @media (min-width: 1280px) {
 
   .container {
@@ -60,4 +66,18 @@ body {
 
 .arrow-down {
   border-top: 12px solid #F52C38;
+}
+
+/* gradients */
+.gr-blue {
+  background: rgb(0,125,241);
+  background: linear-gradient(90deg, rgba(0,125,241,1) 0%, rgba(0,241,231,1) 100%);
+}
+.gr-purple {
+  background: rgb(117,23,248);
+  background: linear-gradient(90deg, rgba(117,23,248,1) 0%, rgba(227,35,255,1) 100%);
+}
+.gr-yellow {
+  background: rgb(255,89,36);
+  background: linear-gradient(90deg, rgba(255,89,36,1) 0%, rgba(255,181,36,1) 100%);
 }
