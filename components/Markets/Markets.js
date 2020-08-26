@@ -10,6 +10,8 @@ function Markets() {
 
   const [priceColour, setPriceColour] = useState('#9292C1')
 
+  const [ready, setReady] = useState(null)
+
   useEffect(() => {
 
     const newPrice = chartDemoData[0].pv
@@ -17,14 +19,20 @@ function Markets() {
     if (newPrice > oldPrice) setPriceColour('#8AFF6C')
     else if (oldPrice > newPrice) setPriceColour('#F52C38')
 
+    setReady(true)
+
   }, [])
 
-  return <div className="w-full bg-gray-300 rounded-lg px-6 py-4">
+  return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4">
 
     {/* <span className="text-gray-200 text-2xl">CHART</span> */}
     {/* <ResponsiveContainer width={300} height={200}> */}
     {/* #F52C38 */}
-      <LineChart width={200} height={100} data={chartDemoData}>
+      <LineChart
+        width={200}
+        height={100}
+        data={chartDemoData}
+        >
         <Tooltip />
         <Line type="monotone"
         dataKey="pv"
@@ -69,7 +77,7 @@ function Markets() {
       </ul>
     </div>
 
-  </div>
+  </div>)
 }
 
 export default Markets
