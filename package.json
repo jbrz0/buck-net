@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pm2 start next -- dev && pm2 start ./data/redis.js",
+    "dev": "pm2 start next -- dev && pm2 start ./data/server.js",
     "build": "next build",
-    "start": "pm2 start next -- start && pm2 start ./data/redis.js",
-    "redis": "pm2 start ./data/redis.js",
+    "start": "pm2 start next -- start && pm2 start ./data/server.js",
+    "server": "pm2 start ./data/server.js",
     "stop": "pm2 stop all"
   },
   "dependencies": {

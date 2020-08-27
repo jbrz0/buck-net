@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/Global/Nav'
 import Container from '../components/Global/Container'
@@ -6,8 +8,29 @@ import Overview from '../components/Overview/Overview'
 import CurrentPrice from '../components/CurrentPrice/CurrentPrice'
 import Markets from '../components/Markets/Markets'
 import SMA from '../components/SMA/SMA'
+import Links from '../components/Links/Links'
+import Volume from '../components/Volume/Volume'
 
 export default function Home() {
+
+  const [prices, setPrices] = useState({})
+  const [changes, setChanges] = useState([])
+
+  useEffect(() => {
+    //? Get the prices
+    axios.get(`http://localhost:5000/cryptosphere-prices`)
+    .then(function (response) {
+      setPrices(response.data)
+    })
+
+    //? Get the changes
+    axios.get(`http://localhost:5000/cryptosphere-change`)
+    .then(function (response) {
+      setChanges(response.data)
+      console.log(response.data)
+    })
+  }, [])
+
   return (
     <div>
       <Head>
@@ -23,13 +46,15 @@ export default function Home() {
         <div className="self-center">
       <Container>
         <div className="col-span-1">
-          <Cryptosphere />
+          <Cryptosphere prices={prices} changes={changes} />
+          <Volume changes={changes} />
         </div>
         <Overview />
         <div className="col-span-1">
           <CurrentPrice />
           <Markets />
           <SMA />
+          <Links />
         </div>
       </Container>
         </div>

@@ -23,9 +23,8 @@ function Markets() {
 
   }, [])
 
-  return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4">
+  return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4 mb-4 shadow-xl">
 
-    {/* <span className="text-gray-200 text-2xl">CHART</span> */}
     {/* <ResponsiveContainer width={300} height={200}> */}
     {/* #F52C38 */}
       <LineChart

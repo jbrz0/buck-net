@@ -1,11 +1,11 @@
 function Overview() {
-  return <div className="col-span-3 rounded-lg bg-gray-300">
+  return <div className="col-span-3 rounded-lg">
     <h2 className="tracking-widest text-center text-gray-50 opacity-75 font-bold text-xl">BTC/USDT</h2>
 
-    <div className="relative bg-blue"
+    <div className="relative"
       style={{minHeight: '550px'}}>
       <div className="absolute z-0 bg-no-repeat bg-center bg-contain mx-auto left-0 right-0"
-      style={{backgroundImage: 'url(/main.svg)', width: '550px', height: '530px', backgroundColor: 'red'}}
+      style={{backgroundImage: 'url(/main.svg)', width: '550px', height: '530px'}}
       ></div>
     </div>
 
