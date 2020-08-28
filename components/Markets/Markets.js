@@ -41,9 +41,9 @@ function Markets() {
 
   return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4 mb-4 shadow-xl">
 
-    {/* <ResponsiveContainer width={300} height={200}> */}
+    {/* <ResponsiveContainer width={200} height={90}> */}
       <LineChart
-        width={200}
+        width={230}
         height={90}
         data={chartData}
         >
@@ -62,7 +62,7 @@ function Markets() {
       </LineChart>
     {/* </ResponsiveContainer> */}
 
-    <div className="text-white mt-4">{today}</div>
+    <div className="text-white mt-6">{today}</div>
     <div className="text-white font-bold text-2xl">{timestamp}</div>
     {tz !== null && tz !== undefined && tz !== '' && <div className="text-white
       opacity-75 text-sm mb-8">

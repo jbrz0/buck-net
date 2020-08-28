@@ -12,11 +12,21 @@ function Cryptosphere(props) {
     else return 'relative '
   }
 
+  const coins = ['bitcoin','ethereum','ripple','chainlink','litecoin','cardano','eos','tezos','stellar','tron']
+
   return prices !== undefined && changes[0] !== undefined && <div className="w-full bg-gray-300 rounded-lg py-4 px-6 mb-4 shadow-xl">
     {console.log('incomp', prices)}
-    <h3 className="text-white text-md mb-2">Cryptosphere</h3>
-    <div className="text-3xl font-bold text-white">12800</div>
-    <p>CHART</p>
+    <h3 className="text-white text-md mb-6">Cryptosphere</h3>
+    {/* <div className="text-3xl font-bold text-white mb-6">12800</div> */}
+
+    {/* TODO:Teal/purple chart will be volumes of cryptosphere coins in v2 */}
+
+    <div className="grid grid-cols-5 mb-4">
+      {coins.map((coin, i) => <div className="col-span-1 mb-3" key={i}>
+        <img className="mx-auto w-5" src={`/logos/${coin}.png`} alt="coin icon" />
+      </div>)}
+    </div>
+
     <div className="grid grid-cols-9 text-white text-sm mb-2">
       <div className="col-span-3">Bitcoin</div>
       <div className="col-span-2 text-gray-200">{changes[0].priceChangePercent.substring(0,4)}%</div>

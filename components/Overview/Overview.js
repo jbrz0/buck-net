@@ -97,26 +97,26 @@ function Overview() {
       ></div>
 
       <div className="absolute top-0 left-0 w-24"
-        style={{marginLeft: '3.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
+        style={{marginLeft: '5.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
         <div className="text-white text-light text-right">Long</div>
         <div className="font-bold text-white text-right truncate">{buyers && parseInt(buyers)}</div>
       </div>
 
       <div className="absolute top-0 right-0 w-24"
-        style={{marginRight: '3.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
+        style={{marginRight: '5.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
         <div className="text-white text-light text-left">Short</div>
         <div className="font-bold text-white text-left truncate">{sellers && parseInt(sellers)}</div>
       </div>
 
       <div className="absolute top-0 right-0 w-16"
-        style={{marginRight: '15.1rem', marginTop: '5.73rem'}}>
+        style={{marginRight: '17.1rem', marginTop: '5.73rem'}}>
         <div className="font-bold text-light text-gray-200 uppercase text-center"
           style={{fontSize: '0.66rem'}}>W CHG %</div>
         <div className="font-bold text-white text-lg text-center truncate leading-none">{weekChange}</div>
       </div>
 
       <div className="absolute top-0 right-0 w-16"
-        style={{marginRight: '13.1rem', marginTop: '9.73rem'}}>
+        style={{marginRight: '15.1rem', marginTop: '9.73rem'}}>
         <div className="font-bold text-light text-gray-200 uppercase text-center"
           style={{fontSize: '0.675rem'}}>SELL %</div>
         <div className="font-bold text-white text-lg text-center truncate leading-none">{sOutlook}</div>
@@ -141,11 +141,10 @@ function Overview() {
     </div>
 
 
-
     <div className="grid grid-cols-3 gap-6 mt-6">
-      <MiniChart data={eth} ticker="ETH" name="Ethereum" price={ethPrice} />
-      <MiniChart data={xrp} ticker="XRP" name="Ripple" price={xrpPrice} />
-      <MiniChart data={ltc} ticker="LTC" name="Litecoin" price={ltcPrice} />
+      <MiniChart width={250} height={40} data={eth} ticker="ETH" name="Ethereum" price={ethPrice} />
+      <MiniChart width={250} height={40} data={xrp} ticker="XRP" name="Ripple" price={xrpPrice} />
+      <MiniChart width={250} height={40} data={ltc} ticker="LTC" name="Litecoin" price={ltcPrice} />
     </div>
   </div>
 }
