@@ -14,6 +14,8 @@ function SMA() {
   const [weeklyPrice, setWeeklyPrice] = useState('')
   const [monthlyPrice, setMonthlyPrice] = useState('')
 
+  const [ready, setReady] = useState(false)
+
   useEffect(() => {
 
     //? Get chart values
@@ -42,9 +44,11 @@ function SMA() {
       setMonthlyPrice(fmtData[fmtData.length - 1]['1M'])
     })
 
+    setReady(true)
+
   }, [])
 
-  return <div className="w-full bg-gray-300 rounded-lg px-8 py-6 mb-4 shadow-xl">
+  return ready && <div className="w-full bg-gray-300 rounded-lg px-8 py-6 mb-4 shadow-xl">
     <div className="grid grid-cols-3 gap-2 mb-2">
       <div className="col-span-1 text-white text-sm">Hourly</div>
       <div className="col-span-1 text-gray-200 font-bold text-sm">{dailyPrice}</div>

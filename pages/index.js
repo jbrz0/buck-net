@@ -27,14 +27,13 @@ export default function Home() {
     axios.get(`http://localhost:5000/cryptosphere-change`)
     .then(function (response) {
       setChanges(response.data)
-      console.log(response.data)
     })
   }, [])
 
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>BuckNet</title>
         <link rel="icon" href="/favicon.ico" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
       </Head>

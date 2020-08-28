@@ -6,13 +6,18 @@ import {LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, Responsiv
 
 function Markets() {
   const today = moment().format('dddd MMM D, YYYY')
-  const timestamp = moment().format('h:MM A')
+  const timestamp = moment().format('h:mm A')
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   const [priceColour, setPriceColour] = useState('#9292C1')
 
   const [ready, setReady] = useState(null)
   const [chartData, setChartData] = useState([])
+
+    // City for time
+    const [newYork, setNewYork] = useState('')
+    const [london, setLondon] = useState('')
+    const [tokyo, setTokyo] = useState('')
 
   useEffect(() => {
 
@@ -21,12 +26,10 @@ function Markets() {
       .then(response => {
 
         const fmtData = response.data.map(item => {
-          // return parseFloat(item)
           return {'1H': parseFloat(item['1H'])}
         })
 
         setChartData(fmtData)
-        console.log(fmtData)
 
         const newPrice = parseFloat(response.data[response.data.length - 1]['1H'])
         const oldPrice = parseFloat(response.data[0]['1H'])
@@ -34,6 +37,29 @@ function Markets() {
         if (newPrice > oldPrice) setPriceColour('#8AFF6C')
         else if (oldPrice > newPrice) setPriceColour('#F52C38')
       })
+
+    const fmTime = (res) => {
+      let str = res
+      let t1 = str.slice(0, -1).split('T')
+      let t2 = t1[1].slice(0, -1).split('+')
+      return t2
+    }
+    // Get times
+    axios.get(`https://worldtimeapi.org/api/timezone/America/New_York`)
+    .then(response => {
+      let time = fmTime(response.data.datetime)
+      setNewYork(moment(time, "hh:mm:ss:SSS").format('hh:mm A'))
+    })
+    axios.get(`https://worldtimeapi.org/api/timezone/Europe/London`)
+    .then(response => {
+      let time = fmTime(response.data.datetime)
+      setLondon(moment(time, "hh:mm:ss:SSS").format('hh:mm A'))
+    })
+    axios.get(`https://worldtimeapi.org/api/timezone/Asia/Tokyo`)
+    .then(response => {
+      let time = fmTime(response.data.datetime)
+      setTokyo(moment(time, "hh:mm:ss:SSS").format('hh:mm A'))
+    })
 
     setReady(true)
 
@@ -44,7 +70,7 @@ function Markets() {
     {/* <ResponsiveContainer width={200} height={90}> */}
       <LineChart
         width={230}
-        height={90}
+        height={85}
         data={chartData}
         >
         <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
@@ -65,32 +91,23 @@ function Markets() {
     <div className="text-white mt-6">{today}</div>
     <div className="text-white font-bold text-2xl">{timestamp}</div>
     {tz !== null && tz !== undefined && tz !== '' && <div className="text-white
-      opacity-75 text-sm mb-8">
+      opacity-75 text-sm mb-6">
       {tz}
     </div>}
 
     <div className="text-white font-normal text-sm">
       <ul className="list-none list-inside">
-        <li><span className="text-teal font-bold">&#9737;</span> New York
-          <span className="rounded-lg bg-black h-2 w-20 float-right relative"
-            style={{top: '0.425rem'}}>
-            <span className="rounded-lg gr-blue h-2 float-left relative"
-            style={{top: '0rem', width: '75%'}}></span>
-          </span>
+        <li className="mb-2"><span className="text-teal font-bold">&#9737;</span> New York
+          <span className="gr-blue float-right overflow-auto rounded relative text-center font-bold text-sm"
+            style={{top: '-0.2rem', padding: '0.1rem 0.25rem', width: '5.2rem', textShadow: '0 0 8px rgba(0,0,0,0.5)'}}>{newYork}</span>
         </li>
-        <li><span className="text-pink font-bold">&#9737;</span> London
-          <span className="rounded-lg bg-black h-2 w-20 float-right relative"
-            style={{top: '0.425rem'}}>
-            <span className="rounded-lg gr-purple h-2 float-left relative"
-            style={{top: '0rem', width: '75%'}}></span>
-          </span>
+        <li className="mb-2"><span className="text-pink font-bold">&#9737;</span> London
+          <span className="gr-purple float-right overflow-auto rounded relative text-center font-bold text-sm"
+            style={{top: '-0.2rem', padding: '0.1rem 0.25rem', width: '5.2rem', textShadow: '0 0 8px rgba(0,0,0,0.5)'}}>{london}</span>
         </li>
-        <li><span className="text-yellow font-bold">&#9737;</span> Tokyo
-          <span className="rounded-lg bg-black h-2 w-20 float-right relative"
-            style={{top: '0.425rem'}}>
-            <span className="rounded-lg gr-yellow h-2 float-left relative"
-            style={{top: '0rem', width: '75%'}}></span>
-          </span>
+        <li className="mb-2"><span className="text-yellow font-bold">&#9737;</span> Tokyo
+          <span className="gr-yellow float-right overflow-auto rounded relative text-center font-bold text-sm"
+            style={{top: '-0.2rem', padding: '0.1rem 0.25rem', width: '5.2rem', textShadow: '0 0 8px rgba(0,0,0,0.5)'}}>{tokyo}</span>
         </li>
       </ul>
     </div>

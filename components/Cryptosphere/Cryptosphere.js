@@ -15,7 +15,7 @@ function Cryptosphere(props) {
   const coins = ['bitcoin','ethereum','ripple','chainlink','litecoin','cardano','eos','tezos','stellar','tron']
 
   return prices !== undefined && changes[0] !== undefined && <div className="w-full bg-gray-300 rounded-lg py-4 px-6 mb-4 shadow-xl">
-    {console.log('incomp', prices)}
+
     <h3 className="text-white text-md mb-6">Cryptosphere</h3>
     {/* <div className="text-3xl font-bold text-white mb-6">12800</div> */}
 
