@@ -19,17 +19,17 @@ function Volume(props) {
     axios.get(`http://localhost:5000/volume-buy-sell`)
       .then(response => {
         setDaily(response.data.allVol)
-        setDP((response.data.allVol / 3900) * 100)
+        setDP((response.data.allVol / 400000) * 100)
       })
     axios.get(`http://localhost:5000/volume-buy-sell-w`)
       .then(response => {
         setWeekly(response.data.allVol)
-        setWP((response.data.allVol / 350000) * 100)
+        setWP((response.data.allVol / 1200000) * 100)
       })
     axios.get(`http://localhost:5000/volume-buy-sell-m`)
       .then(response => {
         setMonthly(response.data.allVol)
-        setMP((response.data.allVol / 4800000) * 100)
+        setMP((response.data.allVol / 3900000) * 100)
       })
 
   }, [])
@@ -47,7 +47,7 @@ function Volume(props) {
           </div>
         <span className="rounded-lg bg-black h-2 w-full float-left relative"
           style={{top: '0.425rem'}}>
-          <span className="rounded-lg gr-blue h-2 float-left relative"
+          <span className="rounded-lg gr-blue h-2 float-left relative max-w-full"
           style={{top: '0rem', width: `${dP}%`}}></span>
         </span>
       </li>
@@ -58,7 +58,7 @@ function Volume(props) {
         </div>
         <span className="rounded-lg bg-black h-2 w-full float-left relative"
           style={{top: '0.425rem'}}>
-          <span className="rounded-lg gr-yellow h-2 float-left relative"
+          <span className="rounded-lg gr-yellow h-2 float-left relative max-w-full"
           style={{top: '0rem', width: `${wP}%`}}></span>
         </span>
       </li>
@@ -69,7 +69,7 @@ function Volume(props) {
         </div>
         <span className="rounded-lg bg-black h-2 w-full float-left relative"
           style={{top: '0.425rem'}}>
-          <span className="rounded-lg gr-purple h-2 float-left relative"
+          <span className="rounded-lg gr-purple h-2 float-left relative max-w-full"
           style={{top: '0rem', width: `${mP}%`}}></span>
         </span>
       </li>

@@ -167,12 +167,12 @@ app.get('/volume', (req, res) => {
 // Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 // [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored]
 // Buy volume is [10], Sell volume is [7] - [10]
-async function getCandle(t) {
-  let candle = await binance.candlesticks("BTCUSDT", t)
+async function getCandle(sym, t) {
+  let candle = await binance.candlesticks(sym, t)
   return candle
 }
 app.get('/volume-buy-sell', (req, res) => {
-  getCandle('1d').then(data => {
+  getCandle("BTCUSDT", '1d').then(data => {
     const buyVol = data[data.length - 1][10]
     const sellVol = parseFloat(data[data.length - 1][7] - buyVol).toString()
     const allVol = data[data.length - 1][5]
@@ -180,47 +180,50 @@ app.get('/volume-buy-sell', (req, res) => {
   })
 })
 app.get('/volume-buy-sell-w', (req, res) => {
-  getCandle('1w').then(data => {
+  getCandle("BTCUSDT", '1w').then(data => {
     const allVol = data[data.length - 1][5]
     res.send({allVol})
   })
 })
 app.get('/volume-buy-sell-m', (req, res) => {
-  getCandle('1M').then(data => {
+  getCandle("BTCUSDT", '1M').then(data => {
     const allVol = data[data.length - 1][5]
     res.send({allVol})
   })
 })
 
 app.get('/candles-hourly', (req, res) => {
-  getCandle('1h').then(data => {
+  getCandle("BTCUSDT", '1h').then(data => {
     const l = (i) => data[data.length - i][4]
-    res.send([{'1H': l(1)},{'1H': l(2)},{'1H': l(3)},
-      {'1H': l(4)},{'1H': l(5)},{'1H': l(6)},
+    res.send([{'1H': l(10)},{'1H': l(9)},{'1H': l(8)},
+      {'1H': l(7)},{'1H': l(6)},{'1H': l(5)},{'1H': l(4)},
+      {'1H': l(3)},{'1H': l(2)},{'1H': l(1)}
     ])
   })
 })
+
+// Smaller Charts
 app.get('/candles-daily', (req, res) => {
-  getCandle('1d').then(data => {
+  getCandle("BTCUSDT", '1d').then(data => {
     const l = (i) => data[data.length - i][4]
-    res.send([{'1D': l(1)},{'1D': l(2)},{'1D': l(3)},
-      {'1D': l(4)},{'1D': l(5)},{'1D': l(6)},
+    res.send([{'1D': l(6)},{'1D': l(5)},{'1D': l(4)},
+      {'1D': l(3)},{'1D': l(2)},{'1D': l(1)},
     ])
   })
 })
 app.get('/candles-weekly', (req, res) => {
-  getCandle('1w').then(data => {
+  getCandle("BTCUSDT", '1w').then(data => {
     const l = (i) => data[data.length - i][4]
-    res.send([{'1W': l(1)},{'1W': l(2)},{'1W': l(3)},
-      {'1W': l(4)},{'1W': l(5)},{'1W': l(6)},
+    res.send([{'1W': l(6)},{'1W': l(5)},{'1W': l(4)},
+      {'1W': l(3)},{'1W': l(2)},{'1W': l(1)},
     ])
   })
 })
 app.get('/candles-monthly', (req, res) => {
-  getCandle('1M').then(data => {
+  getCandle("BTCUSDT", '1M').then(data => {
     const l = (i) => data[data.length - i][4]
-    res.send([{'1M': l(1)},{'1M': l(2)},{'1M': l(3)},
-      {'1M': l(4)},{'1M': l(5)},{'1M': l(6)},
+    res.send([{'1M': l(6)},{'1M': l(5)},{'1M': l(4)},
+      {'1M': l(3)},{'1M': l(2)},{'1M': l(1)},
     ])
   })
 })
@@ -240,6 +243,45 @@ app.get('/cmc', (req, res) => {
     return all
   }
   getRedisValues().then(() => res.send(all))
+})
+
+// Bottom charts
+// ETH, XRP, LTC, BNB (/USDT)
+app.get('/candles-eth', (req, res) => {
+  getCandle("ETHUSDT", '1h').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1H': l(10)},{'1H': l(9)},{'1H': l(8)},
+      {'1H': l(7)},{'1H': l(6)},{'1H': l(5)},{'1H': l(4)},
+      {'1H': l(3)},{'1H': l(2)},{'1H': l(1)},
+    ])
+  })
+})
+app.get('/candles-xrp', (req, res) => {
+  getCandle("XRPUSDT", '1h').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1H': l(10)},{'1H': l(9)},{'1H': l(8)},
+      {'1H': l(7)},{'1H': l(6)},{'1H': l(5)},{'1H': l(4)},
+      {'1H': l(3)},{'1H': l(2)},{'1H': l(1)},
+    ])
+  })
+})
+app.get('/candles-ltc', (req, res) => {
+  getCandle("LTCUSDT", '1h').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1H': l(10)},{'1H': l(9)},{'1H': l(8)},
+      {'1H': l(7)},{'1H': l(6)},{'1H': l(5)},{'1H': l(4)},
+      {'1H': l(3)},{'1H': l(2)},{'1H': l(1)},
+    ])
+  })
+})
+app.get('/candles-bnb', (req, res) => {
+  getCandle("BNBUSDT", '1h').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1H': l(10)},{'1H': l(9)},{'1H': l(8)},
+      {'1H': l(7)},{'1H': l(6)},{'1H': l(5)},{'1H': l(4)},
+      {'1H': l(3)},{'1H': l(2)},{'1H': l(1)},
+    ])
+  })
 })
 
 app.listen(5000, () => {

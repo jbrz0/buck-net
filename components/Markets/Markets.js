@@ -28,8 +28,8 @@ function Markets() {
         setChartData(fmtData)
         console.log(fmtData)
 
-        const newPrice = parseFloat(response.data[0]['1H'])
-        const oldPrice = parseFloat(response.data[response.data.length - 1]['1H'])
+        const newPrice = parseFloat(response.data[response.data.length - 1]['1H'])
+        const oldPrice = parseFloat(response.data[0]['1H'])
 
         if (newPrice > oldPrice) setPriceColour('#8AFF6C')
         else if (oldPrice > newPrice) setPriceColour('#F52C38')
@@ -42,14 +42,16 @@ function Markets() {
   return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4 mb-4 shadow-xl">
 
     {/* <ResponsiveContainer width={300} height={200}> */}
-    {/* #F52C38 */}
       <LineChart
         width={200}
-        height={100}
+        height={90}
         data={chartData}
         >
-        <YAxis type="number" domain={[0, 12000]} />
-        <Tooltip />
+        <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
+        <Tooltip
+          contentStyle={{background: 'black', border: 0, borderRadius: '1rem', fontSize: '0.8rem', color: 'white'}}
+          labelStyle={{display: 'none'}}
+          itemStyle={{color: '#CCD0DB'}}/>
         <Line type="monotone"
         dataKey="1H"
         stroke={priceColour}
@@ -60,7 +62,7 @@ function Markets() {
       </LineChart>
     {/* </ResponsiveContainer> */}
 
-    <div className="text-white">{today}</div>
+    <div className="text-white mt-4">{today}</div>
     <div className="text-white font-bold text-2xl">{timestamp}</div>
     {tz !== null && tz !== undefined && tz !== '' && <div className="text-white
       opacity-75 text-sm mb-8">
