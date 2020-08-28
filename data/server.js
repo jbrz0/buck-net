@@ -5,6 +5,7 @@ const cors = require('cors')
 const CronJob = require('cron').CronJob
 const asyncRedis = require('async-redis')
 const Binance = require('node-binance-api')
+const { fn } = require('moment')
 
 // Config
 dotenv.config()
@@ -25,164 +26,44 @@ const binance = new Binance().options({
 })
 
 //! Run at 1AM and 1PM (UTC) to ensure updated daily SMA values
-// const job = new CronJob('00 01,13 * * *', function() {
-  const url = 'https://www.alphavantage.co/'
-  const params1 = 'query?function=SMA&symbol=BTCUSD&interval=daily&time_period='
-  const params2 = '&series_type=close&apikey='
-  const av = process.env.ALPHA_VANTAGE
+const job = new CronJob('00 01,13 * * *', function() {
 
-  function returnSMA(res, i) {
-    const data = res.data["Technical Analysis: SMA"]
-    const latestDate = Object.keys(data)[i]
-    const latestNum = parseFloat(data[latestDate].SMA).toFixed(2)
-    return latestNum
+  // Get marketCap & Week Change %
+  function cmcCall() {
+    const cmUrl = 'https://pro-api.coinmarketcap.com/v1/'
+    // const params = 'blockchain/statistics/latest?symbol=BTC'
+    const cmParams =  'cryptocurrency/listings/latest?limit=50'
+
+    axios({
+      url: cmUrl + cmParams,
+      method: 'get',
+      headers: {
+        'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      // Find btc from top 50 coins (no direct BTC call)
+      const arr = response.data.data
+      const btc = arr.filter(coin => coin.symbol === "BTC")[0]
+
+      const marketCap = btc.quote.USD.market_cap
+      const weekChange = btc.quote.USD.percent_change_7d
+      client.set("marketCap", marketCap)
+      client.set("weekChange", weekChange)
+    })
+    .catch(err => console.log(err))
   }
+  cmcCall()
 
-  function repeatSMAVal(res, time) {
-    for (let i = 0; i < 5; i++) {
-      return client.set(`SMA${time}ChartItem${i + 1}`, returnSMA(res, i))
-    }
-  }
-
-  // Get SMA for 15/50/200
-  axios.get(`${url}${params1}${15}${params2}${av}`).then((res) => {
-    client.set("SMA15", returnSMA(res, 0))
-    repeatSMAVal(res, "15")
-  }).catch(err => console.log(err))
-
-  axios.get(`${url}${params1}${50}${params2}${av}`).then((res) => {
-    client.set("SMA50", returnSMA(res, 0))
-    repeatSMAVal(res, "50")
-  }).catch(err => console.log(err))
-
-  axios.get(`${url}${params1}${200}${params2}${av}`).then((res) => {
-    client.set("SMA200", returnSMA(res, 0))
-    repeatSMAVal(res, "200")
-  }).catch(err => console.log(err))
-
-  const params3 = 'query?function='
-  const daily = 'DIGITAL_CURRENCY_DAILY'
-  const weekly = 'DIGITAL_CURRENCY_WEEKLY'
-  const monthly = 'DIGITAL_CURRENCY_MONTHLY'
-  const params4 = '&symbol=BTC&market=USD&apikey='
-
-  function returnVolD(res, i) {
-    const data = res.data["Time Series (Digital Currency Daily)"]
-    const latestDate = Object.keys(data)[i]
-    const latestNum = parseFloat(data[latestDate]['5. volume']).toFixed(2)
-    return latestNum
-  }
-  function returnVolW(res, i) {
-    const data = res.data["Time Series (Digital Currency Weekly)"]
-    const latestDate = Object.keys(data)[i]
-    const latestNum = parseFloat(data[latestDate]['5. volume']).toFixed(2)
-    return latestNum
-  }
-  function returnVolM(res, i) {
-    const data = res.data["Time Series (Digital Currency Monthly)"]
-    const latestDate = Object.keys(data)[i]
-    const latestNum = parseFloat(data[latestDate]['5. volume']).toFixed(2)
-    return latestNum
-  }
-
-  // Get Volume (day, week, month)
-  // Because of API limitations, we wait 1 min to ping the server
-  axios.get(`${url}${params3}${daily}${params4}${av}`).then((res) => {
-    setTimeout(() => client.set("btcVolD", returnVolD(res, 0)), 65000)
-  }).catch(err => console.log(err))
-
-  axios.get(`${url}${params3}${weekly}${params4}${av}`).then((res) => {
-    client.set("btcVolW", returnVolW(res, 0))
-    setTimeout(() => client.set("btcVolD", returnVolW(res, 0)), 65000)
-  }).catch(err => console.log(err))
-
-  axios.get(`${url}${params3}${monthly}${params4}${av}`).then((res) => {
-    setTimeout(() => client.set("btcVolD", returnVolM(res, 0)), 65000)
-  }).catch(err => console.log(err))
-
-// })
-// job.start()
+})
+job.start()
 
 const app = express()
 
 app.use(cors())
 
-let SMA15 = ''
-let SMA50 = ''
-let SMA200 = ''
-let SMA15ChartItem1 = ''
-let SMA15ChartItem2 = ''
-let SMA15ChartItem3 = ''
-let SMA15ChartItem4 = ''
-let SMA15ChartItem5 = ''
-let SMA15ChartItem6 = ''
-let SMA50ChartItem1 = ''
-let SMA50ChartItem2 = ''
-let SMA50ChartItem3 = ''
-let SMA50ChartItem4 = ''
-let SMA50ChartItem5 = ''
-let SMA50ChartItem6 = ''
-let SMA200ChartItem1 = ''
-let SMA200ChartItem2 = ''
-let SMA200ChartItem3 = ''
-let SMA200ChartItem4 = ''
-let SMA200ChartItem5 = ''
-let SMA200ChartItem6 = ''
 let all = {}
-
-app.get('/sma', (req, res) => {
-
-  async function getRedisValues() {
-    SMA15 = await client.get("SMA15")
-    SMA50 = await client.get("SMA50")
-    SMA200 = await client.get("SMA200")
-    SMA15ChartItem1 = await client.get("SMA15ChartItem1")
-    SMA15ChartItem2 = await client.get("SMA15ChartItem2")
-    SMA15ChartItem3 = await client.get("SMA15ChartItem3")
-    SMA15ChartItem4 = await client.get("SMA15ChartItem4")
-    SMA15ChartItem5 = await client.get("SMA15ChartItem5")
-    SMA15ChartItem6 = await client.get("SMA15ChartItem6")
-    SMA50ChartItem1 = await client.get("SMA50ChartItem1")
-    SMA50ChartItem2 = await client.get("SMA50ChartItem2")
-    SMA50ChartItem3 = await client.get("SMA50ChartItem3")
-    SMA50ChartItem4 = await client.get("SMA50ChartItem4")
-    SMA50ChartItem5 = await client.get("SMA50ChartItem5")
-    SMA50ChartItem6 = await client.get("SMA50ChartItem6")
-    SMA200ChartItem1 = await client.get("SMA200ChartItem1")
-    SMA200ChartItem2 = await client.get("SMA200ChartItem2")
-    SMA200ChartItem3 = await client.get("SMA200ChartItem3")
-    SMA200ChartItem4 = await client.get("SMA200ChartItem4")
-    SMA200ChartItem5 = await client.get("SMA200ChartItem5")
-    SMA200ChartItem6 = await client.get("SMA200ChartItem6")
-
-    all = {
-      "SMA15": SMA15,
-      "SMA50": SMA50,
-      "SMA200": SMA200,
-      "SMA15ChartItem1": SMA15ChartItem1,
-      "SMA15ChartItem2": SMA15ChartItem2,
-      "SMA15ChartItem3": SMA15ChartItem3,
-      "SMA15ChartItem4": SMA15ChartItem4,
-      "SMA15ChartItem5": SMA15ChartItem5,
-      "SMA15ChartItem6": SMA15ChartItem6,
-      "SMA50ChartItem1": SMA50ChartItem1,
-      "SMA50ChartItem2": SMA50ChartItem2,
-      "SMA50ChartItem3": SMA50ChartItem3,
-      "SMA50ChartItem4": SMA50ChartItem4,
-      "SMA50ChartItem5": SMA50ChartItem5,
-      "SMA50ChartItem6": SMA50ChartItem6,
-      "SMA200ChartItem1": SMA200ChartItem1,
-      "SMA200ChartItem2": SMA200ChartItem2,
-      "SMA200ChartItem3": SMA200ChartItem3,
-      "SMA200ChartItem4": SMA200ChartItem4,
-      "SMA200ChartItem5": SMA200ChartItem5,
-      "SMA200ChartItem6": SMA200ChartItem6,
-    }
-    return all
-  }
-  getRedisValues().then(() => res.send(all))
-
-})
 
 app.get('/price', (req, res) => {
 
@@ -203,8 +84,13 @@ app.get('/price-change', (req, res) => {
     const item = prev.filter(ticker => {
       if (ticker.symbol === 'BTCUSDT') return true
     })
-    const fmtPrice = parseFloat(item[0].lastPrice).toFixed(2)
-    return fmtPrice
+    const prevPrice = parseFloat(item[0].prevClosePrice).toFixed(2)
+    const changePercent = parseFloat(item[0].priceChangePercent).toFixed(2)
+
+    return {
+      prevPrice,
+      changePercent
+    }
   }
   getPriceChange().then((change) => res.send(change))
   // getPriceChange().then((change) => console.log(change))
@@ -226,17 +112,8 @@ app.get('/cryptosphere-prices', (req, res) => {
     let stellar = price.XLMUSDT
     let tron = price.TRXUSDT
 
-    return {
-      bitcoin,
-      ethereum,
-      ripple,
-      chainlink,
-      litecoin,
-      cardano,
-      eos,
-      tezos,
-      stellar,
-      tron,
+    return { bitcoin, ethereum, ripple, chainlink,
+      litecoin, cardano, eos, tezos, stellar, tron,
     }
   }
   getPrice().then((price) => res.send(price))
@@ -271,7 +148,6 @@ let btcVolW = ''
 let btcVolM = ''
 
 app.get('/volume', (req, res) => {
-
   async function getRedisValues() {
     btcVolD = await client.get("btcVolD")
     btcVolW = await client.get("btcVolW")
@@ -285,7 +161,85 @@ app.get('/volume', (req, res) => {
     return all
   }
   getRedisValues().then(() => res.send(all))
+})
 
+// Get Daily Buy/Sell Volume
+// Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
+// [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored]
+// Buy volume is [10], Sell volume is [7] - [10]
+async function getCandle(t) {
+  let candle = await binance.candlesticks("BTCUSDT", t)
+  return candle
+}
+app.get('/volume-buy-sell', (req, res) => {
+  getCandle('1d').then(data => {
+    const buyVol = data[data.length - 1][10]
+    const sellVol = parseFloat(data[data.length - 1][7] - buyVol).toString()
+    const allVol = data[data.length - 1][5]
+    res.send({buyVol, sellVol, allVol})
+  })
+})
+app.get('/volume-buy-sell-w', (req, res) => {
+  getCandle('1w').then(data => {
+    const allVol = data[data.length - 1][5]
+    res.send({allVol})
+  })
+})
+app.get('/volume-buy-sell-m', (req, res) => {
+  getCandle('1M').then(data => {
+    const allVol = data[data.length - 1][5]
+    res.send({allVol})
+  })
+})
+
+app.get('/candles-hourly', (req, res) => {
+  getCandle('1h').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1H': l(1)},{'1H': l(2)},{'1H': l(3)},
+      {'1H': l(4)},{'1H': l(5)},{'1H': l(6)},
+    ])
+  })
+})
+app.get('/candles-daily', (req, res) => {
+  getCandle('1d').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1D': l(1)},{'1D': l(2)},{'1D': l(3)},
+      {'1D': l(4)},{'1D': l(5)},{'1D': l(6)},
+    ])
+  })
+})
+app.get('/candles-weekly', (req, res) => {
+  getCandle('1w').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1W': l(1)},{'1W': l(2)},{'1W': l(3)},
+      {'1W': l(4)},{'1W': l(5)},{'1W': l(6)},
+    ])
+  })
+})
+app.get('/candles-monthly', (req, res) => {
+  getCandle('1M').then(data => {
+    const l = (i) => data[data.length - i][4]
+    res.send([{'1M': l(1)},{'1M': l(2)},{'1M': l(3)},
+      {'1M': l(4)},{'1M': l(5)},{'1M': l(6)},
+    ])
+  })
+})
+
+let marketCap = ''
+let weekChange = ''
+
+app.get('/cmc', (req, res) => {
+  async function getRedisValues() {
+    marketCap = await client.get("marketCap")
+    weekChange = await client.get("weekChange")
+
+    all = {
+      "marketCap": marketCap,
+      "weekChange": weekChange,
+    }
+    return all
+  }
+  getRedisValues().then(() => res.send(all))
 })
 
 app.listen(5000, () => {

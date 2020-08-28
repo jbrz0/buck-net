@@ -1,7 +1,8 @@
 import moment from 'moment'
+import axios from 'axios'
 import { useState, useEffect } from 'react'
 import {LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer} from 'recharts'
-import chartDemoData from './chartDemoData'
+// import chartDemoData from './chartDemoData'
 
 function Markets() {
   const today = moment().format('dddd MMM D, YYYY')
@@ -11,13 +12,28 @@ function Markets() {
   const [priceColour, setPriceColour] = useState('#9292C1')
 
   const [ready, setReady] = useState(null)
+  const [chartData, setChartData] = useState([])
 
   useEffect(() => {
 
-    const newPrice = chartDemoData[0].pv
-    const oldPrice = chartDemoData[chartDemoData.length - 1].pv
-    if (newPrice > oldPrice) setPriceColour('#8AFF6C')
-    else if (oldPrice > newPrice) setPriceColour('#F52C38')
+    //? Get hourly volume (for chart)
+    axios.get(`http://localhost:5000/candles-hourly`)
+      .then(response => {
+
+        const fmtData = response.data.map(item => {
+          // return parseFloat(item)
+          return {'1H': parseFloat(item['1H'])}
+        })
+
+        setChartData(fmtData)
+        console.log(fmtData)
+
+        const newPrice = parseFloat(response.data[0]['1H'])
+        const oldPrice = parseFloat(response.data[response.data.length - 1]['1H'])
+
+        if (newPrice > oldPrice) setPriceColour('#8AFF6C')
+        else if (oldPrice > newPrice) setPriceColour('#F52C38')
+      })
 
     setReady(true)
 
@@ -30,11 +46,12 @@ function Markets() {
       <LineChart
         width={200}
         height={100}
-        data={chartDemoData}
+        data={chartData}
         >
+        <YAxis type="number" domain={[0, 12000]} />
         <Tooltip />
         <Line type="monotone"
-        dataKey="pv"
+        dataKey="1H"
         stroke={priceColour}
 
         strokeWidth={3}

@@ -10,5 +10,6 @@ module.exports = {
     BINANCE: process.env.BINANCE,
     BINANCE_SECRET: process.env.BINANCE_SECRET,
     ALPHA_VANTAGE: process.env.ALPHA_VANTAGE,
+    COINMARKETCAP: process.env.COINMARKETCAP,
   }
 }

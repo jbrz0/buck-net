@@ -14,20 +14,22 @@ function Volume(props) {
   const [mP, setMP] = useState('')
 
   useEffect(() => {
-    // console.log(btcData)
 
-    //? Get Previous 24h Price of BTC
-    axios.get(`http://localhost:5000/volume`)
+    //? Get volume data
+    axios.get(`http://localhost:5000/volume-buy-sell`)
       .then(response => {
-
-        setDaily(response.data.btcVolD)
-        setWeekly(response.data.btcVolW)
-        setMonthly(response.data.btcVolM)
-        setDP((response.data.btcVolD / 3900) * 100)
-        setWP((response.data.btcVolW / 350000) * 100)
-        setMP((response.data.btcVolM / 4800000) * 100)
-
-        console.log(dP, wP, mP)
+        setDaily(response.data.allVol)
+        setDP((response.data.allVol / 3900) * 100)
+      })
+    axios.get(`http://localhost:5000/volume-buy-sell-w`)
+      .then(response => {
+        setWeekly(response.data.allVol)
+        setWP((response.data.allVol / 350000) * 100)
+      })
+    axios.get(`http://localhost:5000/volume-buy-sell-m`)
+      .then(response => {
+        setMonthly(response.data.allVol)
+        setMP((response.data.allVol / 4800000) * 100)
       })
 
   }, [])
