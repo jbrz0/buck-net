@@ -40,7 +40,7 @@ export default function Home() {
 
       <Nav />
 
-      <div className="flex justify-center h-screen relative z-0"
+      <div className="flex justify-center h-screen relative z-0 px-8"
       style={{marginTop: '-64px'}}>
         <div className="self-center">
       <Container>
