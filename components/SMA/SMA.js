@@ -51,22 +51,22 @@ function SMA() {
   return ready && <div className="w-full bg-gray-300 rounded-lg px-8 py-6 mb-4 shadow-xl">
     <div className="grid grid-cols-3 gap-2 mb-2">
       <div className="col-span-1 text-white text-sm">Hourly</div>
-      <div className="col-span-1 text-gray-200 font-bold text-sm">{dailyPrice}</div>
-      <div className="col-span-1 text-sm text-red">
+      <div className="hidden xxl:block xxl:col-span-1 text-gray-200 font-bold text-sm">{dailyPrice}</div>
+      <div className="col-span-2 flex justify-end xxl:flex-none xxl:col-span-1 text-sm text-red">
       <MiniChart stroke={'#E323FF'} width={70} height={20} data={daily} dataKey="1D" />
       </div>
     </div>
     <div className="grid grid-cols-3 gap-2 mb-2">
       <div className="col-span-1 text-white text-sm">Weekly</div>
-      <div className="col-span-1 text-gray-200 font-bold text-sm">{weeklyPrice}</div>
-      <div className="col-span-1 text-sm text-red">
+      <div className="hidden xxl:block xxl:col-span-1 text-gray-200 font-bold text-sm">{weeklyPrice}</div>
+      <div className="col-span-2 flex justify-end xxl:flex-none xxl:col-span-1 text-sm text-red">
       <MiniChart stroke={'#8AFF6C'} width={70} height={20} data={weekly} dataKey="1W" />
       </div>
     </div>
     <div className="grid grid-cols-3 gap-2 mb-2">
       <div className="col-span-1 text-white text-sm">Monthly</div>
-      <div className="col-span-1 text-gray-200 font-bold text-sm">{monthlyPrice}</div>
-      <div className="col-span-1 text-sm text-red">
+      <div className="hidden xxl:block xxl:col-span-1 text-gray-200 font-bold text-sm">{monthlyPrice}</div>
+      <div className="col-span-2 flex justify-end xxl:flex-none xxl:col-span-1 text-sm text-red">
       <MiniChart stroke={'#FFB524'} width={70} height={20} data={monthly} dataKey="1M" />
       </div>
     </div>

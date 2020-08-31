@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import useMedia from 'use-media'
 import MiniChart from './MiniChart'
 
 function Overview() {
@@ -25,7 +26,6 @@ function Overview() {
   const [marketCap, setMarketCap] = useState('')
   const [weekChange, setWeekChange] = useState('')
 
-
   function buyOutlook(buy, vol) {
     // buyers / total volume = % of daily btc buyers
     const outlook = ((parseFloat(buy) / parseFloat(vol)) * 100).toString().substr(0, 2)
@@ -35,6 +35,11 @@ function Overview() {
     const outlook = ((parseFloat(sell) / parseFloat(vol)) * 100).toString().substr(0, 2)
     return outlook
   }
+
+  // Media query hook
+  const isLg = useMedia({maxWidth: '1599px'})
+  const isMd = useMedia({maxWidth: '1279px'})
+  const isSm = useMedia({maxWidth: '639px'})
 
   useEffect(() => {
 
@@ -84,44 +89,50 @@ function Overview() {
     })
 
     setReady(true)
+
   }, [])
 
+  function dW(isLg, isMd) {
+    // Topdown, sm to lg screen
+    if (isSm) return 240
+    if (isMd) return 180
+    else if (isLg) return 230
+    // XL
+    else return 275
+  }
 
-  return ready && <div className="col-span-3 rounded-lg">
-    <h2 className="tracking-widest text-center text-gray-50 opacity-75 font-bold text-xl">BTC/USDT</h2>
-    <div className="relative"
+  return ready && <div className="overview order-1 col-span-6 xl:order-2 xl:col-span-3 rounded-lg">
+
+    <h2 className="tracking-widest text-center text-white sm:text-gray-50 opacity-75 font-bold text-2xl sm:text-xl relative z-10">BTC/USDT</h2>
+    <div className="relative hidden sm:block"
       style={{minHeight: '550px'}}>
       <div className="absolute z-0 bg-no-repeat bg-center bg-contain mx-auto left-0 right-0"
       style={{backgroundImage: 'url(/main.svg)', width: '550px', height: '530px'}}
       ></div>
 
-      <div className="absolute top-0 left-0 w-24"
-        style={{marginLeft: '5.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
+      <div className="absolute right-0 w-24 o-long">
         <div className="text-white text-light text-right">Long</div>
         <div className="font-bold text-white text-right truncate">{buyers && parseInt(buyers)}</div>
       </div>
 
-      <div className="absolute top-0 right-0 w-24"
-        style={{marginRight: '5.75rem', marginTop: '13.5rem', fontSize: '0.75rem'}}>
+      <div className="absolute left-0 w-24 o-short">
         <div className="text-white text-light text-left">Short</div>
         <div className="font-bold text-white text-left truncate">{sellers && parseInt(sellers)}</div>
       </div>
 
-      <div className="absolute top-0 right-0 w-16"
-        style={{marginRight: '16.95rem', marginTop: '5.52rem'}}>
+      <div className="absolute top-0 mx-auto left-0 w-16 o-w-chg">
         <div className="font-bold text-light text-gray-200 uppercase text-center"
           style={{fontSize: '0.66rem'}}>W CHG %</div>
         <div className="font-bold text-white text-lg text-center truncate leading-none">{weekChange}</div>
       </div>
 
-      <div className="absolute top-0 right-0 w-16"
-        style={{marginRight: '14.9rem', marginTop: '9.73rem'}}>
+      <div className="absolute top-0 mx-auto left-0 w-16 o-sell">
         <div className="font-bold text-light text-gray-200 uppercase text-center"
           style={{fontSize: '0.675rem'}}>SELL %</div>
         <div className="font-bold text-white text-lg text-center truncate leading-none">{sOutlook}</div>
       </div>
 
-      <div className="absolute left-0 right-0 mx-auto bottom-0 mb-8 w-56"
+      <div className="absolute left-0 right-0 mx-auto bottom-0 mb-8 w-56 o-mkt-cap"
         style={{fontSize: '0.75rem'}}>
         <div className="text-white text-light text-center">Market Cap</div>
         <div className="font-bold text-white text-center truncate">{marketCap && parseFloat(marketCap).toFixed(2)} (USD)</div>
@@ -139,11 +150,50 @@ function Overview() {
       </div>
     </div>
 
+    {/* Mobile view */}
+    <div className="relative z-10 mt-8 sm:hidden">
+
+      {/* Buy Outlook */}
+      <div className="text-gray-200 font-bold uppercase text-uppercase mb-1">Buy Outlook</div>
+      <div className="text-white font-bold text-sm">
+        <span className="text-4xl leading-none">{outlook}</span>
+        <span className="text-md text-gray-100 absolute top-0 mt-8">%</span>
+      </div>
+
+      {/* Sell Outlook */}
+      <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">SELL %</div>
+      <div className="text-white text-md truncate leading-none">{sOutlook}</div>
+
+      {/* Week Change */}
+      <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">W CHG %</div>
+      <div className="text-white text-md truncate leading-none">{weekChange}</div>
+
+      {/* Long */}
+      <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">Long</div>
+      <div className="text-white text-md truncate leading-none">{buyers && parseInt(buyers)}</div>
+
+      {/* Short */}
+      <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">Short</div>
+      <div className="text-white text-md truncate leading-none">{sellers && parseInt(sellers)}}</div>
+
+      {/* Market Cap */}
+      <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">Market Cap</div>
+      <div className="text-white text-md truncate leading-none">{marketCap && parseFloat(marketCap).toFixed(2)} (USD)</div>
+
+      <div className="border-b solid border-gray-200 w-full opacity-50 mt-3 mb-8"></div>
+
+    </div>
+
 
     <div className="grid grid-cols-3 gap-6 mt-6">
-      <MiniChart width={275} height={40} data={eth} ticker="ETH" name="Ethereum" price={ethPrice} />
-      <MiniChart width={275} height={40} data={xrp} ticker="XRP" name="Ripple" price={xrpPrice} />
-      <MiniChart width={275} height={40} data={ltc} ticker="LTC" name="Litecoin" price={ltcPrice} />
+      <MiniChart width={dW(isLg, isMd, isSm)} height={40} data={eth} ticker="ETH" name="Ethereum" price={ethPrice} />
+      <MiniChart width={dW(isLg, isMd, isSm)} height={40} data={xrp} ticker="XRP" name="Ripple" price={xrpPrice} />
+      <MiniChart width={dW(isLg, isMd, isSm)} height={40} data={ltc} ticker="LTC" name="Litecoin" price={ltcPrice} />
     </div>
   </div>
 }

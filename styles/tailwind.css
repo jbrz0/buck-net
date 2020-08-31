@@ -3,6 +3,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* Components */
+@import "./overview.css";
+
 /* text aliasing */
 * {
   box-sizing: border-box;

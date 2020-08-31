@@ -1,7 +1,7 @@
 import {LineChart, YAxis, Tooltip, Line, ResponsiveContainer} from 'recharts'
 
 function MiniChart(props) {
-  return <div className="col-span-1 relative">
+  return <div className="col-span-3 sm:col-span-1 relative mx-auto">
     <div className="mb-3">
       <div className="text-white font-bold uppercase inline-block">{props.ticker}</div>
       <div className="text-white ml-3 text-gray-200 inline-block">{props.name}</div>

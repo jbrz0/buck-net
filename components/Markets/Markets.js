@@ -1,6 +1,7 @@
 import moment from 'moment'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import useMedia from 'use-media'
 import {LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer} from 'recharts'
 // import chartDemoData from './chartDemoData'
 
@@ -18,6 +19,10 @@ function Markets() {
     const [newYork, setNewYork] = useState('')
     const [london, setLondon] = useState('')
     const [tokyo, setTokyo] = useState('')
+
+    // Media query hook
+    const isLg = useMedia({maxWidth: '1599px'})
+    const isMd = useMedia({maxWidth: '1279px'})
 
   useEffect(() => {
 
@@ -65,11 +70,18 @@ function Markets() {
 
   }, [])
 
+  function dW(isLg, isMd) {
+    // Topdown, sm to lg screen
+    if (isMd) return 235
+    else if (isLg) return 188
+    // XL
+    else return 230
+  }
+
   return ready && (<div className="w-full bg-gray-300 rounded-lg px-6 py-4 mb-4 shadow-xl">
 
-    {/* <ResponsiveContainer width={200} height={90}> */}
       <LineChart
-        width={230}
+        width={dW(isLg, isMd)}
         height={85}
         data={chartData}
         >
@@ -86,7 +98,6 @@ function Markets() {
         dot={false}
         />
       </LineChart>
-    {/* </ResponsiveContainer> */}
 
     <div className="text-white mt-6">{today}</div>
     <div className="text-white font-bold text-2xl">{timestamp}</div>

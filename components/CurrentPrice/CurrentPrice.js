@@ -39,7 +39,7 @@ function CurrentPrice() {
 
   return <div className="w-full bg-gray-300 rounded-lg px-8 py-6 mb-4 shadow-xl">
     <h3 className="text-white text-md mb-2">Current Price</h3>
-    <div className="text-3xl font-bold text-white">
+    <div className="text-xl xxl:text-3xl font-bold text-white">
       {price}
       <span className="text-gray-50">.{priceCent}</span>
 

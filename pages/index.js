@@ -44,12 +44,12 @@ export default function Home() {
       style={{marginTop: '-64px'}}>
         <div className="self-center">
       <Container>
-        <div className="col-span-1">
+        <div className="order-2 col-span-6 sm:col-span-3 xl:order-1 xl:col-span-1">
           <Cryptosphere prices={prices} changes={changes} />
           <Volume changes={changes} />
         </div>
         <Overview />
-        <div className="col-span-1">
+        <div className="order-3 col-span-6 sm:col-span-3 xl:order-3 xl:col-span-1">
           <CurrentPrice />
           <Markets />
           <SMA />

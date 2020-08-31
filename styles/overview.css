@@ -1,0 +1,34 @@
+.o-long {
+  margin-left: auto;
+  margin-right: auto;
+  top: 13.35rem;
+  left: -36.25rem !important;
+  font-size: 0.75rem;
+}
+.o-short {
+  margin-left: auto;
+  margin-right: auto;
+  top: 13.35rem;
+  right: -36.25rem !important;
+  font-size: 0.75rem;
+}
+.o-w-chg {
+  right: -15.78rem;
+  top: 5.5rem;
+}
+.o-sell {
+  right: -19.78rem;
+  top: 9.75rem;
+}
+@media (max-width: 1279px) {
+  .overview {
+    margin-top: 42rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .overview {
+    margin-top: 95rem;
+  }
+}
