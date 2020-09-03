@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "pm2 start next -- start && pm2 start ./data/server.js",
     "server": "pm2 start ./data/server.js",
-    "stop": "pm2 stop all"
+    "stop": "pm2 stop all",
+    "export": "next export",
+    "deploy": "npm run build && npm run export"
   },
   "dependencies": {
     "async-redis": "^1.1.7",
