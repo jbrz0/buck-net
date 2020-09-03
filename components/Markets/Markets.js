@@ -27,7 +27,7 @@ function Markets() {
   useEffect(() => {
 
     //? Get hourly volume (for chart)
-    axios.get(`http://localhost:5000/candles-hourly`)
+    axios.get(`${process.env.URL}/candles-hourly`)
       .then(response => {
 
         const fmtData = response.data.map(item => {

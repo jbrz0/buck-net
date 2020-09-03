@@ -16,17 +16,17 @@ function Volume(props) {
   useEffect(() => {
 
     //? Get volume data
-    axios.get(`http://localhost:5000/volume-buy-sell`)
+    axios.get(`${process.env.URL}/volume-buy-sell`)
       .then(response => {
         setDaily(response.data.allVol)
         setDP((response.data.allVol / 400000) * 100)
       })
-    axios.get(`http://localhost:5000/volume-buy-sell-w`)
+    axios.get(`${process.env.URL}/volume-buy-sell-w`)
       .then(response => {
         setWeekly(response.data.allVol)
         setWP((response.data.allVol / 1200000) * 100)
       })
-    axios.get(`http://localhost:5000/volume-buy-sell-m`)
+    axios.get(`${process.env.URL}/volume-buy-sell-m`)
       .then(response => {
         setMonthly(response.data.allVol)
         setMP((response.data.allVol / 3900000) * 100)

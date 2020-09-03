@@ -10,6 +10,23 @@ npm run dev
 yarn dev
 ```
 
+# Installation
+`npm i` (maybe -f on unix)
+`npm run build`
+`npm start`
+
+# Troubleshoot Redis (on server)
+- Ensure Redis is running before `npm start`
+`apt-get update`
+`apt-get install redis-server`
+`redis-server`
+Check: `service redis-server status`
+
+**Setup Ports**
+`cd /etc/redis`
+`service redis-server restart`
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.

@@ -44,7 +44,7 @@ function Overview() {
   useEffect(() => {
 
     //? Get Latest BTC/USDT price from Binance
-    axios.get(`http://localhost:5000/volume-buy-sell`)
+    axios.get(`${process.env.URL}/volume-buy-sell`)
     .then(function (response) {
       const buyVol = response.data.buyVol
       const sellVol = response.data.sellVol
@@ -57,7 +57,7 @@ function Overview() {
     })
 
     //? Get price data for charts
-    axios.get(`http://localhost:5000/candles-eth`)
+    axios.get(`${process.env.URL}/candles-eth`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1H': parseFloat(item['1H'])}
@@ -65,7 +65,7 @@ function Overview() {
       setEth(fmtData)
       setEthPrice(fmtData[fmtData.length - 1]['1H'])
     })
-    axios.get(`http://localhost:5000/candles-xrp`)
+    axios.get(`${process.env.URL}/candles-xrp`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1H': parseFloat(item['1H'])}
@@ -73,7 +73,7 @@ function Overview() {
       setXrp(fmtData)
       setXrpPrice(fmtData[fmtData.length - 1]['1H'])
     })
-    axios.get(`http://localhost:5000/candles-ltc`)
+    axios.get(`${process.env.URL}/candles-ltc`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1H': parseFloat(item['1H'])}
@@ -82,7 +82,7 @@ function Overview() {
       setLtcPrice(fmtData[fmtData.length - 1]['1H'])
     })
 
-    axios.get(`http://localhost:5000/cmc`)
+    axios.get(`${process.env.URL}/cmc`)
     .then(response => {
       setMarketCap(response.data.marketCap)
       setWeekChange(parseFloat(response.data.weekChange).toFixed(2))

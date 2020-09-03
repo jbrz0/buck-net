@@ -21,7 +21,7 @@ function CurrentPrice() {
 
   useEffect(() => {
     //? Get Latest BTC/USDT price from Binance
-    axios.get(`http://localhost:5000/price`)
+    axios.get(`${process.env.URL}/price`)
       .then(function (response) {
         const fullPrice = response.data.toString()
         setPrice(fullPrice.split('.')[0])
@@ -29,7 +29,7 @@ function CurrentPrice() {
       })
 
     //? Get Previous 24h Price of BTC
-    axios.get(`http://localhost:5000/price-change`)
+    axios.get(`${process.env.URL}/price-change`)
       .then(response => {
         setPrevPrice(response.data.prevPrice)
         setChangePercent(response.data.changePercent)

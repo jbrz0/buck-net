@@ -18,13 +18,13 @@ export default function Home() {
 
   useEffect(() => {
     //? Get the prices
-    axios.get(`http://localhost:5000/cryptosphere-prices`)
+    axios.get(`${process.env.URL}/cryptosphere-prices`)
     .then(function (response) {
       setPrices(response.data)
     })
 
     //? Get the changes
-    axios.get(`http://localhost:5000/cryptosphere-change`)
+    axios.get(`${process.env.URL}/cryptosphere-change`)
     .then(function (response) {
       setChanges(response.data)
     })

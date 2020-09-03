@@ -19,7 +19,7 @@ function SMA() {
   useEffect(() => {
 
     //? Get chart values
-    axios.get(`http://localhost:5000/candles-daily`)
+    axios.get(`${process.env.URL}/candles-daily`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1D': parseFloat(item['1D'])}
@@ -27,7 +27,7 @@ function SMA() {
       setDaily(fmtData)
       setDailyPrice(fmtData[fmtData.length - 1]['1D'])
     })
-    axios.get(`http://localhost:5000/candles-weekly`)
+    axios.get(`${process.env.URL}/candles-weekly`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1W': parseFloat(item['1W'])}
@@ -35,7 +35,7 @@ function SMA() {
       setWeekly(fmtData)
       setWeeklyPrice(fmtData[fmtData.length - 1]['1W'])
     })
-    axios.get(`http://localhost:5000/candles-monthly`)
+    axios.get(`${process.env.URL}/candles-monthly`)
     .then(response => {
       const fmtData = response.data.map(item => {
         return {'1M': parseFloat(item['1M'])}
