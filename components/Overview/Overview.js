@@ -168,7 +168,7 @@ function Overview() {
       {/* Week Change */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
       <div className="font-bold text-light text-gray-200 uppercase mb-1">W CHG %</div>
-      <div className="text-white text-md truncate leading-none">{weekChange}</div>
+      <div className="text-white text-md truncate leading-none">{weekChange === null ? '🕝' : weekchange}</div>
 
       {/* Long */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
