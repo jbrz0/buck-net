@@ -121,9 +121,15 @@ function Overview() {
       </div>
 
       <div className="absolute top-0 mx-auto left-0 w-16 o-w-chg">
-        <div className="font-bold text-light text-gray-200 uppercase text-center"
+        {/* Optional redis coinmarketcap data */}
+        {/* <div className="font-bold text-light text-gray-200 uppercase text-center"
           style={{fontSize: '0.66rem'}}>W CHG %</div>
-        <div className="font-bold text-white text-lg text-center truncate leading-none">{weekChange}</div>
+        <div className="font-bold text-white text-lg text-center truncate leading-none">{weekChange}</div> */}
+
+        <div className="font-bold text-light text-gray-200 uppercase text-center"
+          style={{fontSize: '0.66rem'}}>{outlook > 50 ? '🟢' : '🔴'}</div>
+        <div className=" text-white text-sm text-center mt-1 truncate leading-none">{outlook > 50 ? 'Up' : 'Down'}</div>
+
       </div>
 
       <div className="absolute top-0 mx-auto left-0 w-16 o-sell">
@@ -132,11 +138,12 @@ function Overview() {
         <div className="font-bold text-white text-lg text-center truncate leading-none">{sOutlook}</div>
       </div>
 
-      <div className="absolute left-0 right-0 mx-auto bottom-0 mb-8 w-56 o-mkt-cap"
+      {/* Optional coinmarketcap data */}
+      {/* <div className="absolute left-0 right-0 mx-auto bottom-0 mb-8 w-56 o-mkt-cap"
         style={{fontSize: '0.75rem'}}>
         <div className="text-white text-light text-center">Market Cap</div>
         <div className="font-bold text-white text-center truncate">{marketCap && parseFloat(marketCap).toFixed(2)} (USD)</div>
-      </div>
+      </div> */}
 
       {/* Outlook Text Box */}
       <div className="absolute left-0 right-0 mx-auto top-0"
@@ -167,8 +174,12 @@ function Overview() {
 
       {/* Week Change */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
-      <div className="font-bold text-light text-gray-200 uppercase mb-1">W CHG %</div>
-      <div className="text-white text-md truncate leading-none">{weekChange!== undefined && weekChange === null ? '🕝' : weekChange}</div>
+      {/* Optional redis week change value from coinmarketcap */}
+      {/* <div className="font-bold text-light text-gray-200 uppercase mb-1">W CHG %</div> */}
+      {/* <div className="text-white text-md truncate leading-none">{weekChange!== undefined && weekChange === null ? '🕝' : weekChange}</div> */}
+
+      <div className="font-bold text-light text-gray-200 uppercase mb-1">{outlook > 50 ? '🟢' : '🔴'}</div>
+      <div className="text-white text-md truncate leading-none">{outlook > 50 ? 'Up' : 'Down'}</div>
 
       {/* Long */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
@@ -182,10 +193,11 @@ function Overview() {
 
       {/* Market Cap */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
-      <div className="font-bold text-light text-gray-200 uppercase mb-1">Market Cap</div>
-      <div className="text-white text-md truncate leading-none">{marketCap && parseFloat(marketCap).toFixed(2)} (USD)</div>
 
-      <div className="border-b solid border-gray-200 w-full opacity-50 mt-3 mb-8"></div>
+      {/* Optional redis market cap from coinmarketcap */}
+      {/* <div className="font-bold text-light text-gray-200 uppercase mb-1">Market Cap</div>
+      <div className="text-white text-md truncate leading-none">{marketCap && parseFloat(marketCap).toFixed(2)} (USD)</div> */}
+      {/* <div className="border-b solid border-gray-200 w-full opacity-50 mt-3 mb-8"></div> */}
 
     </div>
 
