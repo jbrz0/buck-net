@@ -168,7 +168,7 @@ function Overview() {
       {/* Week Change */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
       <div className="font-bold text-light text-gray-200 uppercase mb-1">W CHG %</div>
-      <div className="text-white text-md truncate leading-none">{weekchange!== undefined && weekChange === null ? '🕝' : weekchange}</div>
+      <div className="text-white text-md truncate leading-none">{weekChange!== undefined && weekChange === null ? '🕝' : weekChange}</div>
 
       {/* Long */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
@@ -178,7 +178,7 @@ function Overview() {
       {/* Short */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
       <div className="font-bold text-light text-gray-200 uppercase mb-1">Short</div>
-      <div className="text-white text-md truncate leading-none">{sellers && parseInt(sellers)}}</div>
+      <div className="text-white text-md truncate leading-none">{sellers && parseInt(sellers)}</div>
 
       {/* Market Cap */}
       <div className="border-b solid border-gray-200 w-full opacity-50 my-3"></div>
