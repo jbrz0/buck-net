@@ -1,4 +1,4 @@
-# Odd Scenes Website
+# Buck Net
 
 A crypto financial dashboard pulling updated data from Binance API
 
