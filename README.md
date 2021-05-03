@@ -2,8 +2,6 @@
 
 A crypto financial dashboard pulling updated data from Binance API
 
-### [oddscenes.com/lab/crypto-dashboard](https://oddscenes.com/lab/crypto-dashboard)
-
 &nbsp;&nbsp;
 
 <img src="https://oddscenes.s3.amazonaws.com/screenshot-buck-net.png" width="500" />
