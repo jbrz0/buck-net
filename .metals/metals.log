@@ -1,0 +1,16 @@
+[0m2564.05.25 14:38:53 INFO  Started: Metals version 0.10.3 in workspace 'C:\Users\iyess\OneDrive\Documents\GitHub\buck-net' for client Visual Studio Code 1.56.2.[0m
+[0m2564.05.25 14:38:57 INFO  time: initialize in 3.79s[0m
+[0m2564.05.25 14:38:58 WARN  Build server is not auto-connectable.[0m
+[0m2564.05.25 14:38:58 WARN  no build tool detected in workspace 'C:\Users\iyess\OneDrive\Documents\GitHub\buck-net'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+?.?. 25, 2564 2:39:21 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+?.?. 25, 2564 2:39:23 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+?.?. 25, 2564 2:39:28 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+?.?. 25, 2564 2:39:31 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+?.?. 25, 2564 2:39:33 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+?.?. 25, 2564 2:39:33 ?????????? org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
